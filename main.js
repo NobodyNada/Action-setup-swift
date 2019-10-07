@@ -57,12 +57,7 @@ async function switch_swift() {
         });
         let swiftBinDirectory = swiftPath.replace(/\/swift$/, '');
         core.addPath(swiftBinDirectory);
-        // FIXME: There should be more appropriate way...
-        let xcodePathRegExp = new RegExp('^/Applications/Xcode[^/]*.app/Contents/Developer');
-        let result = swiftBinDirectory.match(xcodePathRegExp);
-        if (result && result[0]) {
-            await exec.exec('sudo xcode-select', ['-switch', result[0]]);
-        }
+        await exec.exec('swiftenv', ['rehash']);
     });
 }
 async function main() {
